@@ -1,7 +1,13 @@
 from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
 import datetime
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/dda_flask'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.secret_key = 'secret string'
+
+db = SQLAlchemy(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -15,9 +21,9 @@ def main_page():  # put application's code here
 def elec_water():
     return render_template('elect_water.html')
 
-@app.route('/lo', methods=['POST'])
+@app.route('/lo', methods=['GET'])
 def land_ownership():
-    return render_template('land_ownership.html')
+    return render_template('base.html')
 
 @app.route('/ac', methods=['POST'])
 def aadhar_card():

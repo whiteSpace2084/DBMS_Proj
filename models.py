@@ -265,3 +265,66 @@ class Admission(db.Model):
         self.College_Id = College_Id
         self.Program_Name = Program_Name
         self.Branch = Branch
+
+class DoctorData(db.Model):
+    __tablename__ = 'doctor_data'
+    d_id = db.Column(db.String(80), primary_key=True)
+    d_DeptID = db.Column(db.String(80), nullable=False)
+    d_Hospital = db.Column(db.String(80), nullable=False)
+    d_Speciality = db.Column(db.String(80), nullable=False)
+    d_email = db.Column(db.String(80), nullable=False)
+
+    def __init__(self, d_id, d_DeptID, d_Hospital, d_Speciality, d_email):
+        self.d_id = d_id
+        self.d_DeptID = d_DeptID
+        self.d_Hospital = d_Hospital
+        self.d_Speciality = d_Speciality
+        self.d_email = d_email
+
+class Diagnosis(db.Model):
+    __tablename__ = 'diagnosis'
+    P_ID = db.Column(db.String(80), primary_key=True)
+    P_diagnosis = db.Column(db.String(80), nullable=False)
+    P_date_of_exam = db.Column(db.String(80), nullable=False)
+    P_room = db.Column(db.String(80), nullable=False)
+    P_med_type = db.Column(db.String(80), nullable=False)
+
+    def __init__(self, P_ID, P_diagnosis, P_date_of_exam, P_room, P_med_type):
+        self.P_ID = P_ID
+        self.P_diagnosis= P_diagnosis
+        self.P_date_of_exam = P_date_of_exam
+        self.P_room = P_room
+        self.P_med_type= P_med_type
+
+class PatientData(db.Model):
+    __tablename__ = 'patient_data'
+    p_name = db.Column(db.String(80), nullable=False)
+    p_ID = db.Column(db.String(80), primary_key=True)
+    p_email = db.Column(db.String(80), nullable=False)
+    p_diagnosis = db.Column(db.String(80), nullable=False)
+    p_rec_num = db.Column(db.String(80), nullable=False)
+
+    P_ID = db.Column(db.String, db.ForeignKey('diagnosis.P_ID'))
+
+    def __init__(self, p_name, p_ID, p_email, p_diagnosis, p_rec_num):
+        self.p_name = p_name
+        self.p_ID = p_ID
+        self.p_email = p_email
+        self.p_diagnosis= p_diagnosis
+        self.p_rec_num = p_rec_num
+
+class HospitalData(db.Model):
+    __tablename__ = 'hospital_data'
+    h_name = db.Column(db.String(80), nullable=False)
+    h_DeptID = db.Column(db.String(80), nullable=False)
+    h_ID = db.Column(db.String(80), primary_key=True)
+    h_bedAvbl = db.Column(db.String(80), nullable=False)
+
+    d_id = db.Column(db.String, db.ForeignKey('doctor_data.d_id'))
+    p_ID = db.Column(db.String, db.ForeignKey('patient_data.p_ID'))
+
+    def __init__(self, h_name, h_DeptID, h_ID, h_bedAvbl):
+        self.h_name = h_name
+        self.h_DeptID = h_DeptID
+        self.h_ID = h_ID
+        self.h_bedAvbl = h_bedAvbl

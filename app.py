@@ -21,6 +21,7 @@ def main_page():  # put application's code here
 def elec_water():
     return render_template('elect_water.html')
 
+
 @app.route('/lo', methods=['GET'])
 def land_ownership():
     return render_template('base.html')

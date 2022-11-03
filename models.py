@@ -171,3 +171,25 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String)
+    exam_rank = db.Column(db.Integer)
+
+class Land(db.Model):
+    __tablename__ = 'land'
+    id = db.Column(db.Integer, primary_key=True)
+    land_doc = db.Column(db.String)
+    land_area = db.Column(db.Integer)
+    land_pincode = db.Column(db.Integer)
+    land_district = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    users = db.relationship("User", foreign_keys="Land.user_id")
+
+
+    def __init__(self, land_doc, land_area, land_pincode, land_district, user_id):
+        self.land_doc = land_doc
+        self.land_area = land_area
+        self.land_pincode = land_pincode
+        self.land_district = land_district
+        self.user_id = user_id
